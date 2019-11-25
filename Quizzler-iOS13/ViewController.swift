@@ -54,7 +54,7 @@ class ViewController: UIViewController {
                  sender.alpha = 1
              })
         
-        //Logic
+        //Logic to not go over the amount of quesitons
         if(questionNumber < quiz.count - 1){
             questionNumber += 1
             updateUi()
@@ -64,20 +64,27 @@ class ViewController: UIViewController {
                 self.questionNumber = 0
                 self.updateUi()
              })
-   
         }
         
+        //Logic for correct incorrect answers
         if( userAnswer == actualAnswer){
             print("Correct!")
+            sender.backgroundColor = UIColor.green
         }else{
             print("Incorrect!")
+            sender.backgroundColor = UIColor.red
         }
-        
     }
     
     //Create function to avoid repeating code
     func updateUi(){
         questionLabel.text = quiz[questionNumber].question
+        
+        //update button background with a delay
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+            self.trueButton.backgroundColor = UIColor.clear
+            self.falseButton.backgroundColor = UIColor.clear
+        })
     }
 }
 
