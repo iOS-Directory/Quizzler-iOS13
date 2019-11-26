@@ -15,6 +15,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var questionLabel: UILabel!
     @IBOutlet weak var trueButton: UIButton!
     @IBOutlet weak var falseButton: UIButton!
+    @IBOutlet weak var scoreLabel: UILabel!
     
     //Getting the questions, answers and methods from Model
     var quizBrain = QuizBrain()
@@ -29,7 +30,7 @@ class ViewController: UIViewController {
         updateUi()
     }
     
-
+    
     // When any button is pressed it will trigger these actions
     @IBAction func answerButtonPressed(_ sender: UIButton) {
         
@@ -40,9 +41,8 @@ class ViewController: UIViewController {
         let userGoItRight = quizBrain.checkAnswer(userAnswer!)
         
         //Prevent to not go over the actual amount of questions in the array
-        // Pass this to getQuestionText in updateUi to display next question
-        currentQuestion = quizBrain.nextQuestion()
-
+        quizBrain.nextQuestion()
+        
         //Change background color on the pressed button
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
             sender.alpha = 1
@@ -61,9 +61,11 @@ class ViewController: UIViewController {
     
     //Update diferent elements of the user interface
     func updateUi(){
+        //Kepp track of score
+            scoreLabel.text = quizBrain.getScore()
         
-        //Set the Label equal to the current question and updates afte each click
-        questionLabel.text = quizBrain.getQuestionText(currentQuestion)
+        //Set the Label equal to the current question and updates after each click
+        questionLabel.text = quizBrain.getQuestionText()
         
         //Sets the Progress bar equal to the returned Float
         progressBar.progress = quizBrain.getProgress()

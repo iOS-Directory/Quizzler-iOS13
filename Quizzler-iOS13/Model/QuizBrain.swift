@@ -11,6 +11,7 @@ import Foundation
 struct QuizBrain {
     
     //Array of questions to be display
+    //Each question is an instance or a copy of the Question struct
     let quiz = [
         Question(q: "A slug's blood is green.", a: "True"),
         Question(q: "Approximately one quarter of human bones are in the feet.", a: "True"),
@@ -28,25 +29,26 @@ struct QuizBrain {
     
     //Start with first question in the array
     var currentQuestion = 0
-    
+    var score = 0
     
     //Check amount of question in array to prevent going over the total
-    mutating func nextQuestion() -> Int{
-        //Logic to not go over the amount of quesitons
+    //Because this method is mutating the currentQuestion variable
+    //the mutating keyword must be use to reconstruct the struct
+    mutating func nextQuestion(){
         if(currentQuestion < quiz.count - 1){
             currentQuestion += 1
-            return currentQuestion
         }else{
             currentQuestion = 0
-            return currentQuestion
+            score = 0
         }
     }
     
     //Check if the user answer match the actual answer
-    func checkAnswer (_ userAnswer: String) -> Bool{
+    mutating func checkAnswer (_ userAnswer: String) -> Bool{
         let actualAnswer = quiz[currentQuestion].answer
         //Logic for correct incorrect answers
         if( userAnswer == actualAnswer){
+            score += 1
             return true
         }else{
             return false
@@ -54,8 +56,8 @@ struct QuizBrain {
     }
     
     //Gets the current question to send back the text to be display in the label
-    func getQuestionText(_ nextQuest: Int)-> String{
-        return quiz[nextQuest].question
+    func getQuestionText()-> String{
+        return quiz[currentQuestion].question
     }
     
     //Returns a Float number to show the progress bar
@@ -64,8 +66,9 @@ struct QuizBrain {
         return completionPercentage
     }
     
-    
-    
-    
+    //Get score
+    func getScore()-> String{
+        return String("Score: \(score)")
+    }
     
 }
