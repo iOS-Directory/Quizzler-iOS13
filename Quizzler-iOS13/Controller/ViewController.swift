@@ -15,6 +15,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var questionLabel: UILabel!
     @IBOutlet weak var trueButton: UIButton!
     @IBOutlet weak var falseButton: UIButton!
+    @IBOutlet weak var middleButton: UIButton!
     @IBOutlet weak var scoreLabel: UILabel!
     
     //Getting the questions, answers and methods from Model
@@ -62,7 +63,7 @@ class ViewController: UIViewController {
     //Update diferent elements of the user interface
     func updateUi(){
         //Kepp track of score
-            scoreLabel.text = quizBrain.getScore()
+        scoreLabel.text = quizBrain.getScore()
         
         //Set the Label equal to the current question and updates after each click
         questionLabel.text = quizBrain.getQuestionText()
@@ -70,10 +71,15 @@ class ViewController: UIViewController {
         //Sets the Progress bar equal to the returned Float
         progressBar.progress = quizBrain.getProgress()
         
+        //update buttons
+        trueButton.setTitle(quizBrain.getAnswerText()[0], for: .normal)
+        middleButton.setTitle(quizBrain.getAnswerText()[1], for: .normal)
+        falseButton.setTitle(quizBrain.getAnswerText()[2], for: .normal)
         
         //update button background from red/green back to clear with a delay
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
             self.trueButton.backgroundColor = UIColor.clear
+            self.middleButton.backgroundColor = UIColor.clear
             self.falseButton.backgroundColor = UIColor.clear
         })
     }
